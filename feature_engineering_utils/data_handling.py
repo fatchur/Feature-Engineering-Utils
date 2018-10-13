@@ -1,3 +1,7 @@
+import pandas as pd
+import numpy as np
+
+
 def binary_based_class_split(class_names, dataframe, feature_col, target_col):
     """
 	Splitting the value of certain feature based on the class (binary class)
