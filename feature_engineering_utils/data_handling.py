@@ -145,6 +145,7 @@ def identify_zero_importance_features(train, train_labels, iterations = 2):
 
 def feature_selection(feature, target, iterations, code):
     import xgboost
+    from sklearn.model_selection import train_test_split
     
     importances = dict.fromkeys(feature.keys(), 1)
     importances =dict.fromkeys(importances, 0)
