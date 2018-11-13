@@ -28,7 +28,7 @@ def binary_based_class_split(class_names, dataframe, feature_col, target_col):
         else:
             dict[class_names[1]].append(row[feature_col])
             
-    print len(dict[class_names[0]]), len(dict[class_names[1]])
+    print (len(dict[class_names[0]]), len(dict[class_names[1]]))
 
     # return a dictionary, with class names as column names
     df = pd.DataFrame({class_names[0]: dict[class_names[0]], class_names[1]: dict[class_names[1]]})
