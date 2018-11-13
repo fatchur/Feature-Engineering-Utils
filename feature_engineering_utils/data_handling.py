@@ -141,3 +141,26 @@ def identify_zero_importance_features(train, train_labels, iterations = 2):
     
     return zero_features, feature_importances
 
+
+
+def feature_selection(feature, target, iterations, code):
+    import xgboost
+    
+    importances = dict.fromkeys(feature.keys(), 1)
+    importances =dict.fromkeys(importances, 0)
+    
+    if code == "regression":
+        xgb = xgboost.XGBRegressor(n_estimators=100, learning_rate=0.08, gamma=0, subsample=0.75,
+                           colsample_bytree=1, max_depth=7)
+        
+    for i in range (iterations):
+        train_features, valid_features, train_y, valid_y = train_test_split(feature, 
+                                                                            target, test_size = 0.25, 
+                                                                            random_state = i)
+        xgb.fit(train_features, train_y)
+        fscore = xgb.feature_importances_
+        
+        for idx, i in enumerate(importances):
+            importances[i] += fscore[idx]
+            
+    return importances
