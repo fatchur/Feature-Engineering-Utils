@@ -99,7 +99,14 @@ def identify_zero_importance_features(train, train_labels, iterations = 2):
     Parameters
     --------
     train : dataframe
-        Training features
+        Training features    '''
+    ## remove the non number character
+    for idx, i in enumerate(pandas_column):
+        # only get the day
+        pandas_column[idx] = pandas_column[idx][:10]
+        # remove the "-"
+        pandas_column[idx] = pandas_column[idx].replace("-", "")
+    '''
         
     train_labels : np.array
         Labels for training data
@@ -143,7 +150,16 @@ def identify_zero_importance_features(train, train_labels, iterations = 2):
 
 
 
-def feature_selection(feature, target, code):
+def get_feture_importance(feature, target, code):
+    """
+	A function to calculate the feature importance
+	Args:
+		Feature:		The pandas dataframe with columns as feature
+		Target:		    The pandas dataframe with single column as a target
+		The code:       The string of code ('regresion' or 'classification')     
+	Return:
+		A plot of feature importance
+	"""
     import xgboost
     from sklearn.model_selection import train_test_split
     from xgboost import plot_importance,XGBClassifier
@@ -160,3 +176,14 @@ def feature_selection(feature, target, code):
     plot = plot_importance(xgb)
     
     return plot
+
+
+def print_full(x):
+    """
+	Print all the pandas dataframe value
+	Args:
+		x:		The dataframe
+	"""
+    pd.set_option('display.max_rows', len(x))
+    print(x)
+    pd.reset_option('display.max_rows')
