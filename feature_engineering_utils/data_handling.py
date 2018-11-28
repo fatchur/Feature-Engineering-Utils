@@ -88,68 +88,6 @@ def agg_numeric(df, group_var, df_name):
     return agg
 
 
-def identify_zero_importance_features(train, train_labels, iterations = 2):
-    import lightgbm as lgb
-    """
-    Identify zero importance features in a training dataset based on the 
-    feature importances from a gradient boosting model. 
-
-    source : https://towardsdatascience.com/machine-learning-kaggle-competition-part-two-improving-e5b4d61ab4b8
-    
-    Parameters
-    --------
-    train : dataframe
-        Training features    '''
-    ## remove the non number character
-    for idx, i in enumerate(pandas_column):
-        # only get the day
-        pandas_column[idx] = pandas_column[idx][:10]
-        # remove the "-"
-        pandas_column[idx] = pandas_column[idx].replace("-", "")
-    '''
-        
-    train_labels : np.array
-        Labels for training data
-        
-    iterations : integer, default = 2
-        Number of cross validation splits to use for determining feature importances
-    """
-    
-    # Initialize an empty array to hold feature importances
-    feature_importances = np.zeros(train.shape[1])
-
-    # Create the model with several hyperparameters
-    model = lgb.LGBMClassifier(objective='binary', boosting_type = 'goss', 
-                               n_estimators = 10000, class_weight = 'balanced')
-    
-    # Fit the model multiple times to avoid overfitting
-    for i in range(iterations):
-
-        # Split into training and validation set
-        train_features, valid_features, train_y, valid_y = train_test_split(train, train_labels, 
-                                                                            test_size = 0.25, 
-                                                                            random_state = i)
-
-        # Train using early stopping
-        model.fit(train_features, train_y, early_stopping_rounds=100, 
-                  eval_set = [(valid_features, valid_y)], 
-                  eval_metric = 'auc', verbose = 200)
-
-        # Record the feature importances
-        feature_importances += model.feature_importances_ / iterations
-    
-    feature_importances = pd.DataFrame({'feature': list(train.columns), 
-                            'importance': feature_importances}).sort_values('importance', 
-                                                                            ascending = False)
-    
-    # Find the features with zero importance
-    zero_features = list(feature_importances[feature_importances['importance'] == 0.0]['feature'])
-    print('\nThere are %d features with 0.0 importance' % len(zero_features))
-    
-    return zero_features, feature_importances
-
-
-
 def get_feture_importance(feature, target, code):
     """
 	A function to calculate the feature importance
