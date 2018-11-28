@@ -170,7 +170,7 @@ def get_feture_importance(feature, target, code):
 
     train_features, valid_features, train_y, valid_y = train_test_split(feature, 
                                                                         target, test_size = 0.25, 
-                                                                        random_state = i)
+                                                                        random_state = 2)
     xgb.fit(train_features, train_y)
     fscore = xgb.feature_importances_
     plot = plot_importance(xgb)
@@ -178,7 +178,7 @@ def get_feture_importance(feature, target, code):
     return plot
 
 
-def print_full(x):
+def print_dataframe_full(x):
     """
 	Print all the pandas dataframe value
 	Args:
@@ -187,3 +187,6 @@ def print_full(x):
     pd.set_option('display.max_rows', len(x))
     print(x)
     pd.reset_option('display.max_rows')
+
+
+
