@@ -145,7 +145,7 @@ class TimeHandler():
                                     5: [1, 30, 31], 6: [1, 2, 3, 4, 5, 6], 7: [], 8: [17], \
                                     9: [12], 10: [], 11:[9], 12: [25, 26]}}
                          
-        self.weekend_start = {2016:[2, 3], 2017:[1, 7], 2018:[6, 7], 2019:[5, 6]}
+        self.weekend_start = {2016:[2, 3], 2017:[7, 1], 2018:[6, 7], 2019:[5, 6]}
 
     def encode_oneyear_YYYYMMDD(self, pandas_column):
         pandas_column = pandas_column.str.replace("-", "")
@@ -169,6 +169,15 @@ class TimeHandler():
             encoded_day.append(total_day)
         return np.array(year), np.array(month), np.array(date), np.array(encoded_day)
     
+    def encode_oneweek_date(self, pandas_year_column, pandas_encoded_date):
+        encoded = []
+        for i, j in zip(pandas_year_column, pandas_encoded_date):
+            ### start monday
+            start = self.weekend_start[i][1] + 1
+            tmp = (j - start) % 7 + 1
+            encoded.append(tmp)
+        return encoded
+        
     def encode_oneyear_date(self, year, pandas_month_column, pandas_date_column):
         encoded_day = []
         for j, k in zip(pandas_month_column, pandas_date_column):
@@ -219,6 +228,3 @@ class TimeHandler():
             weekend = is_saturday or is_sunday
             weekends.append(int(weekend))
         return weekends
-
-
-
