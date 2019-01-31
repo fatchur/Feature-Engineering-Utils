@@ -187,7 +187,7 @@ class TimeHandler():
 			month.append(tmp_month)
 			date.append(tmp_date)
 			encoded_day.append(total_day)
-		return np.array(year), np.array(month), np.array(date), np.array(encoded_day
+		return np.array(year), np.array(month), np.array(date), np.array(encoded_day)
 																		 
 	
 	def encode_oneweek_date(self, pandas_year_column, pandas_encoded_date):
@@ -259,7 +259,7 @@ class TimeHandler():
 		return encoded_day
 																		 
 
-	def is_holiday(self, pandas_year_column, pandas_month_column, pandas_date_column
+	def is_holiday(self, pandas_year_column, pandas_month_column, pandas_date_column):
 		"""
 		Method for creating boolean value of holiday or not
 		Args:
